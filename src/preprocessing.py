@@ -28,11 +28,16 @@ def select_columns(df):
 
 
 def add_is_last_episode(df):
-    """Create is_last_episode column."""
+    """Create is_last_episode column indicating the last episode of each season."""
+    
+    # Get last episode number per season
+    last_episode_per_season = df.groupby("season")["number_in_season"].max()
+    
+    # Map it back to the dataframe and compare
     df["is_last_episode"] = (
-        df["number_in_season"]
-        == df.groupby("season")["number_in_season"].transform("max")
+        df["number_in_season"] == df["season"].map(last_episode_per_season)
     ).astype(int)
+    
     return df
 
 
