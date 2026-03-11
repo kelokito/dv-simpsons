@@ -23,6 +23,7 @@ def select_columns(df):
         "imdb_rating",
         "us_viewers_in_millions",
         "views",
+        'title'
     ]
     return df[columns]
 

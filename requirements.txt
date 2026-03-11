@@ -1,0 +1,1 @@
+# aixo ho podem fer amb una llibreria q es diu pigar que et genera el requirements a partir del codi

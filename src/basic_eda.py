@@ -32,14 +32,14 @@ def count_outliers_iqr(df, column):
     upper_bound = Q3 + 1.5 * IQR
 
     outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
-    return len(outliers)
+    return outliers, len(outliers), lower_bound, upper_bound
 
 
 def print_outliers(df, columns):
     """Print number of outliers for selected columns."""
     print("\nNumber of outliers (IQR method):")
     for col in columns:
-        print(f"{col}: {count_outliers_iqr(df, col)}")
+        print(f"{col}: {count_outliers_iqr(df, col)[1]}")
 
 
 def main():
