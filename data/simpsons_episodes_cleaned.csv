@@ -58,13 +58,13 @@ season,number_in_season,original_air_date,day_aired,imdb_rating,us_viewers_in_mi
 7,23,1996-05-05,Sunday,8.0,11.3,75618.0,Much Apu About Nothing,0
 7,25,1996-05-19,Sunday,8.3,14.7,65847.0,Summer of 4 Ft. 2,1
 8,4,1996-11-17,Sunday,7.7,12.6,55497.0,"Burns, Baby Burns",0
-8,7,1996-12-15,Sunday,7.8,,60912.0,Lisa's Date with Density,0
+8,7,1996-12-15,Sunday,7.8,12.2,60912.0,Lisa's Date with Density,0
 8,10,1997-01-12,Sunday,9.0,20.9,69555.0,The Springfield Files,0
 8,11,1997-01-19,Sunday,7.8,14.0,71813.0,The Twisted World of Marge Simpson,0
 8,14,1997-02-09,Sunday,7.9,15.5,58581.0,The Itchy & Scratchy & Poochie Show,0
 8,15,1997-02-16,Sunday,8.9,15.3,63355.0,Homer's Phobia,0
 8,18,1997-03-16,Sunday,8.7,14.6,83561.0,Homer vs. the Eighteenth Amendment,0
-8,20,1997-04-13,Sunday,7.7,,54155.0,The Canine Mutiny,0
+8,20,1997-04-13,Sunday,7.7,13.25,54155.0,The Canine Mutiny,0
 8,22,1997-04-27,Sunday,8.0,16.9,59088.0,In Marge We Trust,0
 8,25,1997-05-18,Sunday,7.8,12.7,59196.0,The Secret War of Lisa Simpson,1
 9,2,1997-09-28,Sunday,7.4,14.9,48414.0,The Principal and the Pauper,0
@@ -233,9 +233,9 @@ season,number_in_season,original_air_date,day_aired,imdb_rating,us_viewers_in_mi
 27,6,2015-11-08,Sunday,6.8,3.48,175.0,Friend with Benefit,0
 27,9,2015-12-13,Sunday,8.4,5.97,182.0,Barthood,0
 27,11,2016-01-10,Sunday,6.8,8.33,172.0,Teenage Mutant Milk-Caused Hurdles,0
-28,2,2016-10-02,Sunday,,,,"Friends and Family""[203]",0
-28,3,2016-10-09,Sunday,,,,"The Town""[205]",0
-28,4,2016-10-16,Sunday,,,,"Treehouse of Horror XXVII""[207]",1
+28,2,2016-10-02,Sunday,,6.0,,"Friends and Family""[203]",0
+28,3,2016-10-09,Sunday,,3.22,,"The Town""[205]",0
+28,4,2016-10-16,Sunday,,7.44,,"Treehouse of Horror XXVII""[207]",1
 27,14,2016-02-21,Sunday,6.6,3.1,144.0,Gal of Constant Sorrow,0
 27,16,2016-03-13,Sunday,7.3,3.07,201.0,The Marge-ian Chronicles,0
 27,19,2016-04-24,Sunday,7.1,2.77,192.0,Fland Canyon,0
@@ -319,7 +319,7 @@ season,number_in_season,original_air_date,day_aired,imdb_rating,us_viewers_in_mi
 9,15,1998-02-22,Sunday,7.5,9.5,20298.0,The Last Temptation of Krust,0
 9,5,1997-11-02,Sunday,8.2,10.3,30921.0,The Cartridge Family,0
 8,19,1997-04-06,Sunday,8.2,13.3,60584.0,Grade School Confidential,0
-8,8,1996-12-29,Sunday,8.8,,66281.0,Hurricane Neddy,0
+8,8,1996-12-29,Sunday,8.8,14.4,66281.0,Hurricane Neddy,0
 9,19,1998-03-29,Sunday,8.3,9.0,23127.0,Simpson Tide,0
 8,24,1997-05-11,Sunday,7.3,11.6,57926.0,The Simpsons Spin-Off Showcase,0
 9,1,1997-09-21,Sunday,9.1,10.5,62962.0,The City of New York vs. Homer Simpson,0
