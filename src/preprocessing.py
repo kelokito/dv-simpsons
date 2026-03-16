@@ -18,11 +18,11 @@ def select_columns(df):
     columns = [
         "season",
         "number_in_season",
+        'number_in_series',
         "original_air_date",
         "day_aired",
         "imdb_rating",
         "us_viewers_in_millions",
-        "views",
         'title'
     ]
     return df[columns]
