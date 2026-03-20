@@ -2,16 +2,10 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
-
 JUSTIFICATION_TEXT = """
 We have decided to just compare the number of viewers in two days of the week: 
 Sunday and Thursday, as they are the most common days for airing episodes. 
 The other three only have 1 or 2 days of airing and in order to make a comparison we need a minimum number of episodes for each day.
-
-
-and also print a tendency line from avg season 2 to avg season 5 and another one from avg season 6 to avg season 9, to see if there is a change in the tendency of viewers across the seasons. 
-if the tendency line from season 2 to 5 has a negative slope and the one from season 6 to 9 has a negative slope, 
-    it could be comparable
 """
 
 # 1. Cache the data loading separately so it's fast!
@@ -29,6 +23,9 @@ def preprocess_data(df):
     
     # Select only the episodes aired on Sunday and Thursday
     df = df[df['day_aired'].isin(['Sunday', 'Thursday'])]
+
+    df['season_dec'] = df['season'] + -0.5 + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
+
     return df
     
 def render_q4_justification():
@@ -72,7 +69,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
     # CHART 2: Timeline with Season Limits and Trendlines
     # ---------------------------------------------------------
     st.markdown("#### Viewership Timeline and Shift in Tendency")
-    st.write("Below is a timeline of all Sunday and Thursday episodes. We have added tendency lines for **Seasons 2-5** and **Seasons 6-9** to compare the slopes and see if the negative viewer trend is comparable between these two distinct eras.")
+    st.write("Below is a timeline of all Sunday and Thursday episodes. We have added tendency lines for **Seasons 2-5**, **Seasons 6-9**, and an overall trend for **Seasons 2-9** to compare slopes and visualize the viewership decline.")
 
     # Base line chart over time
     line_chart = alt.Chart(df).mark_line(opacity=0.6).encode(
@@ -96,7 +93,6 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
               end_date=('original_air_date', 'max')
           )
     )
-    # Calculate mid date (using /2 to put the label exactly in the middle of the season)
     season_ranges['mid_date'] = season_ranges['start_date'] + (season_ranges['end_date'] - season_ranges['start_date']) / 2
     season_ranges['label_y'] = df['us_viewers_in_millions'].max() * 1.03
     season_ranges['season_label'] = 'S' + season_ranges['season'].astype(str)
@@ -111,7 +107,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         text=alt.Text('season_label:N', title='Season')
     )
 
-    # Tendency Line 1: Seasons 2 to 5
+    # Tendency Line 1: Seasons 2 to 5 (Red)
     trend_s2_s5 = alt.Chart(df).transform_filter(
         (alt.datum.season >= 2) & (alt.datum.season <= 5)
     ).transform_regression(
@@ -121,7 +117,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         y=alt.Y('us_viewers_in_millions:Q')
     )
 
-    # Tendency Line 2: Seasons 6 to 9
+    # Tendency Line 2: Seasons 6 to 9 (Dark Red)
     trend_s6_s9 = alt.Chart(df).transform_filter(
         (alt.datum.season >= 6) & (alt.datum.season <= 9)
     ).transform_regression(
@@ -131,14 +127,46 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         y=alt.Y('us_viewers_in_millions:Q')
     )
 
+    # NEW OVERALL Tendency Line 3: Seasons 2 to 9 (Blue Dashed)
+    # NEW OVERALL Tendency Line 3: Seasons 2 to 9 (Blue Dashed)
+    trend_s2_s9 = alt.Chart(df).transform_filter(
+        (alt.datum.season >= 2) & (alt.datum.season <= 9)
+    ).transform_regression(
+        'original_air_date', 'us_viewers_in_millions'
+    ).mark_line(color='blue', strokeWidth=3, strokeDash=[5, 5]).encode(
+        # THE BUG IS HERE ⬇️
+        x=alt.X('original_air_date:T'), 
+        y=alt.Y('us_viewers_in_millions:Q')
+    )
+
     # Combine all elements into Chart 2
-    final_chart_2 = (line_chart + limit_bounds + season_labels + trend_s2_s5 + trend_s6_s9).properties(
+    final_chart_2 = (line_chart + limit_bounds + season_labels + trend_s2_s5 + trend_s6_s9 + trend_s2_s9).properties(
         height=450,
-        title='US Viewers Over Time (with Trends for S2-S5 & S6-S9)'
+        title='US Viewers Over Time (with Trends for S2-S5, S6-S9, and Overall S2-S9)'
     )
     
     # Render the timeline chart
     st.altair_chart(final_chart_2, use_container_width=True)
 
-    # Render justification at the bottom
+    # ---------------------------------------------------------
+    # CALCULATE METRICS FOR CONCLUSION
+    # ---------------------------------------------------------
+    # Calculate average viewers for Sunday and Thursday
+    sunday_avg = df[df['day_aired'] == 'Sunday']['us_viewers_in_millions'].mean()
+    thursday_avg = df[df['day_aired'] == 'Thursday']['us_viewers_in_millions'].mean()
+    
+    # Calculate the ratio
+    day_multiplier = sunday_avg / thursday_avg
+    
+    # Render the conclusion block
+    st.divider()
+    st.markdown("### Conclusions")
+    
+    st.write("By plotting the tendency line from **Season 2 to Season 9** (dashed blue line) alongside the era-specific trends, we can observe the following:")
+    
+    st.info("While both the Season 2–5 era and the Season 6–9 era display negative slopes, the tendency line from Season 6 to 9 is visibly steeper. This indicates a sharper decline in viewership during that later era compared to the earlier seasons.")
+    
+    st.success(f"Furthermore, across our dataset, an episode aired on **Sunday** averages **{sunday_avg:.2f} million** viewers, whereas an episode aired on **Thursday** averages **{thursday_avg:.2f} million**. Therefore, it is roughly **{day_multiplier:.2f}x better** (or an increase of about {(day_multiplier - 1) * 100:.1f}%) to air an episode on Sunday rather than Thursday.")
+
+    # Render justification at the very bottom
     render_q4_justification()

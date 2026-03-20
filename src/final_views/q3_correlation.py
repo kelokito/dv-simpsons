@@ -86,7 +86,7 @@ def render_q3_view():
     correlation = df['imdb_rating'].corr(df['us_viewers_in_millions'])
     st.markdown(f"**Correlation Coefficient (IMDb Rating vs. Viewership):** {correlation:.2f}")
 
-
+    
 
     # ---------------------------------------------------------
     # JUSTIFICATION
