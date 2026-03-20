@@ -36,21 +36,31 @@ def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     st.write("This heatmap shows the IMDB ratings for each episode across all seasons. We can observe how the 'Golden Era' stands out in the early seasons...")
 
     # --- CONFIGURE CHART 1 ---
-    heatmap = alt.Chart(df).mark_rect().encode(
-        x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0)),
-        y = alt.Y('number_in_season:N'),
+    heatmap = alt.Chart(df).mark_rect(tooltip = False).encode(
+        x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
+        y = alt.Y('number_in_season:N', title = 'Episode Number'),
         color = alt.Color('imdb_rating:Q',
-            scale = alt.Scale(range=['red', 'yellow', 'green'])))
+            scale = alt.Scale(range=['red', 'yellow', 'green']),title = 'IMDb Rating'),
+        
+    )
+            
 
-    text = alt.Chart(df).mark_text(baseline='middle').encode(
-        x = alt.X('season:N'),
-        y = alt.Y('number_in_season:N'),
-        text = alt.Text('imdb_rating:Q', format=".1f")
+    text = alt.Chart(df).mark_text(baseline='middle', size=12).encode(
+        x = alt.X('season:N', title='Season'),
+        y = alt.Y('number_in_season:N', title='Episode Number'),
+        text = alt.Text('imdb_rating:Q', format=".1f"),
+        tooltip = [
+            alt.Tooltip('title:N', title='Episode Title'),
+            alt.Tooltip('season:N', title='Season'),
+            alt.Tooltip('number_in_season:N', title='Episode Number'),
+            alt.Tooltip('imdb_rating:Q', title='IMDb Rating', format='.1f')
+        ]
+        
     )
 
-    chart1 = (heatmap + text).properties(width=600, height=400)
+    chart1 = (heatmap + text).properties(width=600, height=600,title='IMDb Ratings by Season and Episode')
     
     # Render the first chart natively inside this function!
-    st.altair_chart(chart1, use_container_width=True)
+    st.altair_chart(chart1, width='stretch')
 
     render_q1_justification()
