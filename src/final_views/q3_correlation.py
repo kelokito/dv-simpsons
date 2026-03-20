@@ -2,10 +2,21 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
+
+JUSTIFICATION_TEXT = """
+"""
+
+
+
 # 1. Cache the data loading separately so it's fast!
 @st.cache_data
 def load_data(path="../data/simpsons_episodes_cleaned.csv"):
     return pd.read_csv(path)
+
+def render_q3_justification():
+    st.divider()
+    st.markdown("### Justification")
+    st.write(JUSTIFICATION_TEXT)
 
 # 2. This function builds the whole Q3 section
 def render_q3_view():
@@ -70,3 +81,13 @@ def render_q3_view():
     chart2 = alt.layer(line_viewers, line_ratings).resolve_scale(y='independent').properties(height=400)
     
     st.altair_chart(chart2, use_container_width=True)
+
+    # Plot the correlation coefficient as a simple text element below the charts
+    correlation = df['imdb_rating'].corr(df['us_viewers_in_millions'])
+    st.markdown(f"**Correlation Coefficient (IMDb Rating vs. Viewership):** {correlation:.2f}")
+
+
+
+    # ---------------------------------------------------------
+    # JUSTIFICATION
+    # ---------------------------------------------------------

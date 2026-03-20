@@ -11,7 +11,7 @@ def load_data(path="../data/simpsons_episodes_cleaned.csv"):
 
 # 2. Preprocess the data to create a 'season_dec' column for better x-axis positioning
 def preprocess_data(df):
-
+    # We create a 'season_dec' column that adds a small offset to the season number based on the episode's position within the season.
     df['season_dec'] = df['season'] + -0.5 + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
     return df
     
