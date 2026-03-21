@@ -50,15 +50,10 @@ def render_q2_view():
         series="'Season average'"
     ).mark_line(strokeWidth=3,tooltip=False).encode(
         x=alt.X('season_05:Q', title='Season', axis=alt.Axis(tickCount=26), scale=alt.Scale(domain=[1, 28])),
-        y=alt.Y('mean_viewers:Q', title='Average US Viewers (Millions)'),
-        color=alt.Color(
-            'series:N',
-            title='',
-            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['orange', '#1f77b4'])
-        ),
+        y=alt.Y('mean_viewers:Q', title='US Viewers (Millions)'),
         tooltip=[
             alt.Tooltip('season:Q', title='Season', format='.0f'),
-            alt.Tooltip('mean_viewers:Q', title='Average US Viewers (Millions)', format='.2f')
+            alt.Tooltip('mean_viewers:Q', title='US Viewers (Millions)', format='.2f')
         ]
     ).properties(
         title='Average US Viewers by Season'
@@ -74,7 +69,7 @@ def render_q2_view():
         color=alt.value('#1f77b4'),
         tooltip=[
             alt.Tooltip('season:Q', title='Season', format='.0f'),
-            alt.Tooltip('mean_viewers:Q', title='Average US Viewers (Millions)', format='.2f')
+            alt.Tooltip('mean_viewers:Q', title='US Viewers (Millions)', format='.2f')
         ]
     )
 
@@ -87,7 +82,8 @@ def render_q2_view():
         color=alt.Color(
             'series:N',
             title='',
-            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['orange', '#1f77b4'])
+            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['orange', '#1f77b4']),
+            legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         ),
         tooltip=[
             alt.Tooltip('season:O', title='Season'),
@@ -96,6 +92,7 @@ def render_q2_view():
             alt.Tooltip('us_viewers_in_millions:Q', title='US Viewers (Millions)', format='.2f')
         ]
     )
+
 
 
     

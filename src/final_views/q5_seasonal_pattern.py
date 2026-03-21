@@ -31,6 +31,8 @@ def preprocess_data(df):
     
     # Split the season into 20 phases (0 to 19)
     df['number_of_episode_normalized_quantiles'] = pd.qcut(df['number_of_episode_normalized'], q=20, labels=False)
+
+    df['number_of_viewers_percentage'] = df.groupby('season')['us_viewers_in_millions'].transform(lambda x: x / x.sum() * 100)
     return df
 
 def render_q5_view(path="../data/simpsons_episodes_cleaned.csv"):
@@ -45,8 +47,33 @@ def render_q5_view(path="../data/simpsons_episodes_cleaned.csv"):
     # Chart 1: Scatter plot of all episodes using the continuous normalized variable
     scatter = alt.Chart(df).mark_circle(opacity=0.4, size=40, color='#1f77b4').encode(
         x=alt.X('number_of_episode_normalized:Q', title='Season Progression (Normalized 0 to 1)'),
-        y=alt.Y('us_viewers_in_millions:Q', title='Viewers (Millions)'),
-        tooltip=['season', 'number_in_season', 'us_viewers_in_millions']
+        y=alt.Y('number_of_viewers_percentage:Q', title='Viewers as % of Season Total'),
+        tooltip=['season', 'number_in_season', 'number_of_viewers_percentage','us_viewers_in_millions']
+    )
+
+    # Chart 2: The quantile trendline you requested!
+    # We group by your new quantile variable and calculate the mean for both X and Y
+    trend_line = alt.Chart(df).mark_line(color='red', strokeWidth=4, point=True).encode(
+        x=alt.X('mean(number_of_episode_normalized):Q'), 
+        y=alt.Y('mean(number_of_viewers_percentage):Q'),
+        tooltip=[
+            alt.Tooltip('number_of_episode_normalized_quantiles:O', title='Season Phase (Quantile)'),
+            alt.Tooltip('mean(number_of_viewers_percentage):Q', title='Average percentage of viewers', format='.2f')
+        ]
+    )
+
+    # Combine the scatter plot and the quantile trendline
+    final_chart_percentage = (scatter + trend_line).properties(
+        width=700, 
+        height=400,
+        title="Intraseasonal Viewership Pattern (percentage of season total)"
+    )
+
+
+    scatter = alt.Chart(df).mark_circle(opacity=0.4, size=40, color='#1f77b4').encode(
+        x=alt.X('number_of_episode_normalized:Q', title='Season Progression (Normalized 0 to 1)'),
+        y=alt.Y('us_viewers_in_millions:Q', title='Viewers as % of Season Total'),
+        tooltip=['season', 'number_in_season', 'number_of_viewers_percentage','us_viewers_in_millions']
     )
 
     # Chart 2: The quantile trendline you requested!
@@ -56,19 +83,21 @@ def render_q5_view(path="../data/simpsons_episodes_cleaned.csv"):
         y=alt.Y('mean(us_viewers_in_millions):Q'),
         tooltip=[
             alt.Tooltip('number_of_episode_normalized_quantiles:O', title='Season Phase (Quantile)'),
-            alt.Tooltip('mean(us_viewers_in_millions):Q', title='Average Viewers', format='.2f')
+            alt.Tooltip('mean(us_viewers_in_millions):Q', title='Average viewers (millions)', format='.2f')
         ]
     )
 
     # Combine the scatter plot and the quantile trendline
-    final_chart = (scatter + trend_line).properties(
+    final_chart_absolute = (scatter + trend_line).properties(
         width=700, 
         height=400,
-        title="Intraseasonal Viewership Pattern"
+        title="Intraseasonal Viewership Pattern (absolute viewers in millions)"
     )
 
+
     # Render it in Streamlit
-    st.altair_chart(final_chart, use_container_width=True)
+    st.altair_chart(final_chart_percentage, width='stretch')
+    st.altair_chart(final_chart_absolute, width='stretch')
 
     # Render the text block below the chart
     render_q5_justification()
