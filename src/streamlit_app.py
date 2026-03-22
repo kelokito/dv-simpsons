@@ -6,6 +6,7 @@ from final_views.q2_viewers_evolution import render_q2_view
 from final_views.q3_correlation import render_q3_view
 from final_views.q4_weekday_viewers import render_q4_view
 from final_views.q5_seasonal_pattern import render_q5_view
+from final_views.q6_weekday_testing import render_q6_view
 
 # 2. Set the layout to wide
 st.set_page_config(
@@ -54,6 +55,10 @@ questions = {
     "Seasonal Pattern": {
         "question": "Do the seasons’ number of viewers present any relevant pattern?",
         "render_func": render_q5_view
+    },
+     "Weekday Testing": {
+        "question": "Do the seasons’ number of viewers present any relevant pattern?",
+        "render_func": render_q6_view
     }
 }
 
