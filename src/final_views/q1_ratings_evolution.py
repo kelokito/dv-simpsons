@@ -36,7 +36,8 @@ def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
         x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
         y = alt.Y('number_in_season:N', title = 'Episode Number'),
         color = alt.Color('imdb_rating:Q',
-            scale = alt.Scale(range=['red', 'yellow', 'green']),title = 'IMDb Rating'),
+            scale = alt.Scale(range=['red', 'yellow', 'green']),title = 'IMDb Rating',
+            legend=None)
         
     )
             

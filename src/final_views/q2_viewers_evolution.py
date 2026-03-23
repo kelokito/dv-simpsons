@@ -66,7 +66,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
 
     point = alt.Chart(df).transform_calculate(
         series="'Individual episode'"
-    ).mark_circle(size=50, opacity=0.5).encode(
+    ).mark_circle(size=50, opacity=0.75).encode(
         # Note: Make sure 'season_dec' is a real column in your CSV!
         x=alt.X('season_dec:Q', title='Season', scale=alt.Scale(domain=[1, 28])),
         y=alt.Y('us_viewers_in_millions:Q'),

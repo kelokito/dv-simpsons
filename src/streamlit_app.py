@@ -2,7 +2,7 @@ import streamlit as st
 
 # 1. Import your section-rendering functions
 from final_views.q1_ratings_evolution import render_q1_view
-from final_views.q2_viewers_evolution import render_q2_view
+from final_views.q2_viewers_evolution import show_q2_view
 from final_views.q3_correlation import render_q3_view
 from final_views.q4_weekday_viewers import render_q4_view
 from final_views.q5_seasonal_pattern import render_q5_view
@@ -42,7 +42,7 @@ questions = {
     },
     "Viewers over time": {
         "question": "How have the viewers evolved over time?",
-        "render_func": render_q2_view
+        "render_func": show_q2_view
     },
     "Ratings vs Viewers": {
         "question": "Is there a correlation between the ratings and the viewers?",

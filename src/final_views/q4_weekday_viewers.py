@@ -186,7 +186,7 @@ def show_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
 
 
     # 4. Generate the Density Area Chart
-    area = alt.Chart(df).transform_density(
+    area = alt.Chart(df[abs(df['viewers_diff']) < 10]).transform_density(
         'viewers_diff',
         as_=['viewers_diff', 'density'],
         groupby=['day_aired']
@@ -201,7 +201,7 @@ def show_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         color=alt.Color(
             'day_aired:N',
             title='Day Aired',
-            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=[   '#e377c2', '#8c564b', '#bcbd22', '#dbdb8d', '#9edae5']),
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#de2157', '#21DEA8']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         )
     ).properties(
