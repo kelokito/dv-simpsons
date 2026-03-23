@@ -1,83 +1,120 @@
 import streamlit as st
 
 # 1. Import your section-rendering functions
-from final_views.q1_ratings_evolution import render_q1_view, show_q1_view
+from final_views.q1_ratings_evolution import show_q1_view
 from final_views.q2_viewers_evolution import show_q2_view
-from final_views.q3_correlation import render_q3_view, show_q3_view
-from final_views.q4_weekday_viewers import render_q4_view, show_q4_view
-from final_views.q5_seasonal_pattern import render_q5_view, show_q5_view
+from final_views.q3_correlation import show_q3_view
+from final_views.q4_weekday_viewers import show_q4_view
+from final_views.q5_seasonal_pattern import show_q5_view
 
-# 2. Set the layout to wide
-st.set_page_config(
-    page_title="The Simpsons Analytics Dashboard",
-    layout="wide" 
-)
+# 2. Set the layout to wide (THIS MUST BE THE ONLY ONE IN YOUR ENTIRE PROJECT)
+st.set_page_config(page_title="The Simpsons Analytics Dashboard", layout="wide")
 
-# --- THE MAGIC TRICK: INJECT CUSTOM CSS ---
+# 3. Inject Custom CSS
 st.markdown(
     """
     <style>
     .block-container {
         max-width: 1600px;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
-# ------------------------------------------
 
-st.title("The Simpsons Analytics Dashboard")
+st.title("📺 The Simpsons Analytics Dashboard")
 st.divider()
 
-# 3. Dictionary holding the FUNCTION references
-questions = {
-    "Ratings over time": {
-        "question": "How have the ratings evolved over time?",
-        "render_func": show_q1_view
-    },
-    "Viewers by Weekday": {
-        "question": "Are viewers related to the weekday aired?",
-        "render_func": show_q4_view
-    },
-    "Ratings vs Viewers": {
-        "question": "Is there a correlation between ratings and viewers?",
-        "render_func": show_q3_view
-    },
-    "Seasonal Pattern": {
-        "question": "Do the seasons’ viewers present a pattern?",
-        "render_func": show_q5_view
-    },    
-    "Viewers over time": {
-        "question": "How have the viewers evolved over time?",
-        "render_func": show_q2_view
-    }
-}
-
-# Convert dictionary items to a list so we can slice them easily
-questions_list = list(questions.items())
-
-# --- TOP SECTION: 2-COLUMN GRID FOR FIRST 4 QUESTIONS ---
-# Added gap="large" for better spacing between the left and right charts
+# =====================================================================
+# --- CURRENT LAYOUT: Bottom Heavy ---
+# =====================================================================
 col1, col2 = st.columns(2, gap="large")
 
-for i in range(4):
-    key, data = questions_list[i]
-    target_col = col1 if i % 2 == 0 else col2
+with col1:
+    show_q1_view()  # Top Left: Ratings Evolution
+    st.divider()
+    show_q3_view()  # Bottom Left: Ratings vs. Viewers
     
-    with target_col:
-        # Call the function to draw the chart
-        data["render_func"]()
-        
-        # Use a Streamlit divider as a clean visual separator
-        st.divider()
+with col2:
+    show_q4_view()  # Top Right: Weekday Viewers
+    st.divider()
+    show_q5_view()  # Bottom Right: Seasonal Pattern
 
-# --- BOTTOM SECTION: FULL WIDTH FOR THE 5TH QUESTION ---
-last_key, last_data = questions_list[4]
+st.divider()
+show_q2_view()      # Full Width at the bottom: Viewers Over Time
 
-# Render the last chart across the entire width of the page
-last_data["render_func"]()
+
+# =====================================================================
+# --- ALTERNATIVE A: "The Hero" (Top Heavy) ---
+# Great for storytelling: Hook them with the big timeline first, 
+# then break down the details in the grid below.
+# =====================================================================
+_ = """
+show_q2_view()      # Full Width at the top: Viewers Over Time
+st.divider()
+
+col1, col2 = st.columns(2, gap="large")
+
+with col1:
+    show_q1_view()  # Left: Ratings Heatmap
+    st.divider()
+    show_q3_view()  # Left: Ratings vs Viewers Scatter
+    
+with col2:
+    show_q4_view()  # Right: Weekday Distribution
+    st.divider()
+    show_q5_view()  # Right: Seasonal Pattern
+"""
+
+
+# =====================================================================
+# --- ALTERNATIVE B: "The Analyst" (Wide & Narrow Split) ---
+# Groups the two wide, data-heavy charts on the left (66% of the screen)
+# and stacks the three smaller analytical/pattern charts on the right (33%).
+# =====================================================================
+_ = """
+col_wide, col_narrow = st.columns([2, 1], gap="large")
+
+with col_wide:
+    show_q2_view()  # Wide: Timeline
+    st.divider()
+    show_q1_view()  # Wide: Heatmap
+    
+with col_narrow:
+    show_q3_view()  # Narrow: Correlation
+    st.divider()
+    show_q4_view()  # Narrow: Weekday
+    st.divider()
+    show_q5_view()  # Narrow: Season Pattern
+"""
+
+
+# =====================================================================
+# --- ALTERNATIVE C: "The Three-Row Story" ---
+# Gives maximum breathing room. Puts the heatmap up top, 
+# splits the timeline and correlation in the middle, 
+# and puts the deep-dive patterns at the bottom.
+# =====================================================================
+_ = """
+show_q1_view()      # Row 1 Full Width: Heatmap
+st.divider()
+
+row2_col1, row2_col2 = st.columns(2, gap="large")
+with row2_col1:
+    show_q2_view()  # Row 2 Left: Viewers Timeline
+with row2_col2:
+    show_q3_view()  # Row 2 Right: Ratings vs Viewers Correlation
+    
+st.divider()
+
+row3_col1, row3_col2 = st.columns(2, gap="large")
+with row3_col1:
+    show_q4_view()  # Row 3 Left: Weekdays
+with row3_col2:
+    show_q5_view()  # Row 3 Right: Seasonal Pattern
+"""
 
 st.divider()
 st.caption("Dashboard created by Biel Manté and Adrià Espinoza")

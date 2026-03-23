@@ -47,7 +47,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
             
         ]
     ).properties(
-        title='Average US Viewers by Season'
+        title='Average Viewers by Season'
     )
     
     avg_point = alt.Chart(df).transform_aggregate(
@@ -73,7 +73,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
         color=alt.Color(
             'series:N',
             title='',
-            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['#9edae5']),
+            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['#9edae5', '#1f77b4']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         ),
         tooltip=[
