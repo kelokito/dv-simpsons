@@ -54,7 +54,7 @@ def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
         
     )
 
-    chart1 = (heatmap + text).properties(width=700, height=500,title='IMDb Ratings by Season and Episode')
+    chart1 = (heatmap + text).properties(width=700, height=450,title='IMDb Ratings by Season and Episode')
     
     # Render the first chart natively inside this function!
     st.altair_chart(chart1)

@@ -26,6 +26,14 @@ def preprocess_data(df):
 
     df['season_dec'] = df['season'] + -0.5 + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
 
+    # 2. CRITICAL CALCULATION STEP: Sort by date so yi-1 is actually the previous episode
+    df = df.sort_values('original_air_date')
+
+    # 3. Calculate yi - yi-1 (The difference in viewers from the previous episode)
+    # Note: If you want the difference from the previous episode OF THE SAME DAY, 
+    # you should use: df.groupby('day_aired')['us_viewers_in_millions'].diff()
+    df['viewers_diff'] = df['us_viewers_in_millions'].diff()
+
     return df
     
 def render_q4_justification():
@@ -63,7 +71,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         height=400,
         title='US Viewers by Season and Weekday'
     )
-    st.altair_chart(final_chart_1, use_container_width=True)
+    st.altair_chart(final_chart_1, width='stretch')
 
     # ---------------------------------------------------------
     # CHART 2: Timeline with Season Limits and Trendlines
@@ -146,7 +154,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
     )
     
     # Render the timeline chart
-    st.altair_chart(final_chart_2, use_container_width=True)
+    st.altair_chart(final_chart_2, width='stretch')
 
     # ---------------------------------------------------------
     # CALCULATE METRICS FOR CONCLUSION
@@ -170,3 +178,36 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
 
     # Render justification at the very bottom
     render_q4_justification()
+
+def show_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
+    # 1. Load and preprocess the cached data
+    df = load_data(path)
+    df = preprocess_data(df)
+
+
+    # 4. Generate the Density Area Chart
+    area = alt.Chart(df).transform_density(
+        'viewers_diff',
+        as_=['viewers_diff', 'density'],
+        groupby=['day_aired']
+    ).mark_area(opacity=0.7).encode(
+        x=alt.X('viewers_diff:Q', 
+                title='Number of Viewers Change (yi - yi-1)', 
+                axis=alt.Axis(format=',.0f'), 
+                scale=alt.Scale(domain=(-10, 10))),
+        y=alt.Y('density:Q', 
+                title='Density', 
+                scale=alt.Scale(domain=(0, 0.5))),
+        color=alt.Color(
+            'day_aired:N',
+            title='Day Aired',
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=[   '#e377c2', '#8c564b', '#bcbd22', '#dbdb8d', '#9edae5']),
+            legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
+        )
+    ).properties(
+        title='Density of Viewership Changes (Removing the Tendency) by Weekday',
+        height=450
+    )
+
+    # 5. Render to Streamlit (Use container width so it aligns nicely with your other charts)
+    st.altair_chart(area, use_container_width=True)

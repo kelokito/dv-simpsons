@@ -44,6 +44,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
         tooltip=[
             alt.Tooltip('season:Q', title='Season', format='.0f'),
             alt.Tooltip('mean_viewers:Q', title='US Viewers (Millions)', format='.2f')
+            
         ]
     ).properties(
         title='Average US Viewers by Season'
@@ -59,7 +60,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
         color=alt.value('#1f77b4'),
         tooltip=[
             alt.Tooltip('season:Q', title='Season', format='.0f'),
-            alt.Tooltip('mean_viewers:Q', title='US Viewers (Millions)', format='.2f')
+            alt.Tooltip('mean_viewers:Q', title='Average US Viewers (Millions)', format='.2f')
         ]
     )
 
@@ -72,7 +73,7 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
         color=alt.Color(
             'series:N',
             title='',
-            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['orange', '#1f77b4']),
+            scale=alt.Scale(domain=['Individual episode', 'Season average'], range=['#9edae5']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         ),
         tooltip=[
@@ -85,15 +86,5 @@ def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
     
 
     # FIX 3: Apply properties and render the chart in Streamlit
-    chart = (line + point + avg_point).properties(width=700, height=400)
-    st.altair_chart(chart, use_container_width=True)
-
-
-# 2. This function now builds the whole section
-def render_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
-
-    # --- ADD YOUR TEXT HERE ---
-    st.markdown("### The Evolution of Viewers")
-    st.write("This line chart shows the number of viewers for each episode across all seasons. We can see how the viewership has evolved over time, with peaks in the early seasons and a general decline in later seasons...")
-
-    show_q2_view(path)
+    chart = (line + point + avg_point).properties(width=1400, height=500)
+    st.altair_chart(chart)
