@@ -26,14 +26,10 @@ def render_q1_justification():
     st.write(JUSTIFICATION_TEXT)
 
 
-# 2. This function now builds the whole section
-def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
+def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
+
     # Load the cached data
     df = load_data(path)
-
-    # --- ADD YOUR TEXT HERE ---
-
-    st.write("This heatmap shows the IMDB ratings for each episode across all seasons. We can observe how the 'Golden Era' stands out in the early seasons...")
 
     # --- CONFIGURE CHART 1 ---
     heatmap = alt.Chart(df).mark_rect(tooltip = False).encode(
@@ -58,9 +54,21 @@ def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
         
     )
 
-    chart1 = (heatmap + text).properties(width=600, height=600,title='IMDb Ratings by Season and Episode')
+    chart1 = (heatmap + text).properties(width=700, height=500,title='IMDb Ratings by Season and Episode')
     
     # Render the first chart natively inside this function!
-    st.altair_chart(chart1, width='stretch')
+    st.altair_chart(chart1)
+
+
+
+# 2. This function now builds the whole section
+def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
+    
+
+    # --- ADD YOUR TEXT HERE ---
+
+    st.write("This heatmap shows the IMDB ratings for each episode across all seasons. We can observe how the 'Golden Era' stands out in the early seasons...")
+
+    show_q1_view(path)
 
     render_q1_justification()

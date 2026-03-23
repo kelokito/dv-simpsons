@@ -96,8 +96,8 @@ def render_q5_view(path="../data/simpsons_episodes_cleaned.csv"):
 
 
     # Render it in Streamlit
-    st.altair_chart(final_chart_percentage, width='stretch')
-    st.altair_chart(final_chart_absolute, width='stretch')
+    st.altair_chart(final_chart_percentage)
+    st.altair_chart(final_chart_absolute)
 
     # Render the text block below the chart
     render_q5_justification()

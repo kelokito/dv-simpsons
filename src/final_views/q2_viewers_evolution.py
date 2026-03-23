@@ -11,8 +11,11 @@ def load_data(path="../data/simpsons_episodes_cleaned.csv"):
 
 # 2. Preprocess the data to create a 'season_dec' column for better x-axis positioning
 def preprocess_data(df):
-    # We create a 'season_dec' column that adds a small offset to the season number based on the episode's position within the season.
-    df['season_dec'] = df['season'] + -0.5 + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
+    # FIX 1: Changed df2 to df to match the loaded variable above
+    df['season_05'] = df['season'] + 0.5
+
+    df['season_dec'] = df['season'] + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
+
     return df
     
 
@@ -23,23 +26,10 @@ def render_q2_justification():
     st.markdown("### Justification")
 
 
-
-# 2. This function now builds the whole section
-def render_q2_view():
+def show_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
     # Load the cached data
-    df = load_data()
+    df = load_data(path)
     df = preprocess_data(df)
-
-    # --- ADD YOUR TEXT HERE ---
-    st.markdown("### The Evolution of Viewers")
-    st.write("This line chart shows the number of viewers for each episode across all seasons. We can see how the viewership has evolved over time, with peaks in the early seasons and a general decline in later seasons...")
-
-    # FIX 1: Changed df2 to df to match the loaded variable above
-    df['season_05'] = df['season'] + 0.5
-
-    df['season_dec'] = df['season'] + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
-
-
 
     # FIX 2: Indented all the Altair code so it sits inside the function
     line = alt.Chart(df).transform_aggregate(
@@ -92,11 +82,18 @@ def render_q2_view():
             alt.Tooltip('us_viewers_in_millions:Q', title='US Viewers (Millions)', format='.2f')
         ]
     )
-
-
-
     
 
     # FIX 3: Apply properties and render the chart in Streamlit
-    chart = (line + point + avg_point).properties(width=800, height=500)
+    chart = (line + point + avg_point).properties(width=700, height=400)
     st.altair_chart(chart, use_container_width=True)
+
+
+# 2. This function now builds the whole section
+def render_q2_view(path="../data/simpsons_episodes_cleaned.csv"):
+
+    # --- ADD YOUR TEXT HERE ---
+    st.markdown("### The Evolution of Viewers")
+    st.write("This line chart shows the number of viewers for each episode across all seasons. We can see how the viewership has evolved over time, with peaks in the early seasons and a general decline in later seasons...")
+
+    show_q2_view(path)

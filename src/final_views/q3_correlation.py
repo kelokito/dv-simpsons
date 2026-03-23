@@ -19,10 +19,83 @@ def render_q3_justification():
     st.markdown("### Justification")
     st.write(JUSTIFICATION_TEXT)
 
-# 2. This function builds the whole Q3 section
-def render_q3_view():
+
+def show_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
     # Load the cached data
-    df = load_data()
+    df = load_data(path)
+    # For a clean line chart, it's usually best to aggregate by season first 
+    # so it doesn't look like a chaotic scribble of 600+ episodes.
+    season_df = df.groupby('season').agg({
+        'us_viewers_in_millions': 'mean',
+        'imdb_rating': 'mean'
+    }).reset_index()
+
+    # Base chart for the X-axis (Season)
+    base = alt.Chart(season_df).encode(
+        x=alt.X('season:O', title='Season', axis = alt.Axis(labelAngle=0))
+    ).properties(title = "Ratings vs. Viewership Correlation", width=700, height=400)
+
+    # First line: Viewers (Blue)
+    line_viewers = base.mark_line(color='#1f77b4', strokeWidth=3).encode(
+        y=alt.Y('us_viewers_in_millions:Q', 
+                title='Average Viewers (Millions)', 
+                axis=alt.Axis(titleColor='#1f77b4'))
+    )
+    point_viewers = base.mark_point(size=80, filled=True, stroke='white', strokeWidth=1.5, color='#1f77b4').encode(
+        y=alt.Y('us_viewers_in_millions:Q'),
+        tooltip=[
+            alt.Tooltip('season:O', title='Season'),
+            alt.Tooltip('us_viewers_in_millions:Q', title='Avg Viewers (Millions)', format='.2f')
+        ]
+    )
+
+
+    # Second line: Ratings (Orange)
+    line_ratings = base.mark_line(color='#ff7f0e', strokeWidth=3).encode(
+        y=alt.Y('imdb_rating:Q', 
+                title='Average IMDb Rating', 
+                axis=alt.Axis(titleColor='#ff7f0e'), 
+                scale=alt.Scale(zero=False))
+                
+    )
+    point_ratings = base.mark_point(size=80, filled=True, stroke='white', strokeWidth=1.5, color='#ff7f0e').encode(
+        y=alt.Y('imdb_rating:Q',title =''),
+        tooltip=[
+            alt.Tooltip('season:O', title='Season'),
+            alt.Tooltip('imdb_rating:Q', title='Avg IMDb Rating', format='.2f')
+        ]
+    )
+
+    # Legend layer generated from the same season_df (no extra DataFrame needed).
+    legend = alt.Chart(season_df).transform_fold(
+        ['us_viewers_in_millions', 'imdb_rating'],
+        as_=['metric', 'value']
+    ).transform_calculate(
+        series="datum.metric == 'us_viewers_in_millions' ? 'Average Viewers' : 'Average Ratings'"
+    ).mark_point(size=1, opacity=0,filled =True ).encode(
+        x=alt.X('season:O'),
+        y=alt.Y('us_viewers_in_millions:Q',title=''),
+        color=alt.Color(
+            'series:N',
+            title='',
+            scale=alt.Scale(domain=['Average Viewers', 'Average Ratings'], range=['#1f77b4', '#ff7f0e']),
+            legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
+        )
+    )
+
+    # Combine them and resolve the Y-axis so they stay independent
+    viewers_layer = alt.layer(line_viewers, point_viewers,legend)
+    ratings_layer = alt.layer(line_ratings, point_ratings)
+    chart2 = alt.layer(viewers_layer, ratings_layer).resolve_scale(y='independent').properties(height=400)
+    
+    st.altair_chart(chart2, use_container_width=True)
+    
+
+
+# 2. This function builds the whole Q3 section
+def render_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
+    # Load the cached data
+    df = load_data(path)
 
     st.markdown("### Ratings vs. Viewership Correlation")
     st.write("How do the ratings and viewership relate to each other? Let's look at their relationship.")
@@ -249,3 +322,5 @@ def render_q3_view():
     # ---------------------------------------------------------
     # JUSTIFICATION
     # ---------------------------------------------------------
+
+
