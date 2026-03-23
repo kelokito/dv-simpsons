@@ -76,6 +76,7 @@ def render_q3_view():
                 strokeColor='black',
                 cornerRadius=4,
                 padding=6,
+                symbolSize=0,
                 symbolType='stroke',
                 symbolStrokeColor='black',
                 symbolStrokeWidth=2
@@ -91,7 +92,7 @@ def render_q3_view():
     trendline = scatter.transform_regression('imdb_rating', 'us_viewers_in_millions').mark_line(color='red', strokeWidth=3)
     
     chart1 = (scatter + trendline + corr_legend).properties(height=400)
-    st.altair_chart(chart1, use_container_width=True)
+    st.altair_chart(chart1, width='stretch')
 
     st.write("We can observe an overall postivie trend in the scatter plot, but is it alos noticeable that there is a lot of variability in the data, meaning that for a given ratiing, the number of viewers can vary widely. ")
     st.write("To quantify this relationship, we calculated 2 correlation coefficients shown in the plot. We calculated both Pearson's correlation, which measures linear correlation, and Kendall's Tau, which is a non-parametric " \
@@ -172,7 +173,7 @@ def render_q3_view():
     ratings_layer = alt.layer(line_ratings, point_ratings)
     chart2 = alt.layer(viewers_layer, ratings_layer).resolve_scale(y='independent').properties(height=400)
     
-    st.altair_chart(chart2, use_container_width=True)
+    st.altair_chart(chart2, width='stretch')
     st.write("We can see that the linear elationship is specially strong for later seasons, where both ratings and viewership decline together approximately after season 15. From seasons 1-8 we see that the average ratings grow while the viewership declines, and in seasons 11-14 we see the opposite, with ratings declining while viewership grows. This is an interesting finding, as it shows that the correlation between ratings and viewership is not consistent across all seasons, and that there are periods where they even move in opposite directions. This could be due to a variety of factors, such as changes in the show's quality, shifts in audience preferences, or external events affecting viewership.")
 
     st.markdown("#### 3. Each espisode")
@@ -240,7 +241,7 @@ def render_q3_view():
     ratings_layer = alt.layer(line_ratings, point_ratings)
     chart2 = alt.layer(viewers_layer, ratings_layer).resolve_scale(y='independent').properties(height=400)
     
-    st.altair_chart(chart2, use_container_width=True)
+    st.altair_chart(chart2, width='stretch')
     st.write("We can see that the linear elationship is specially strong for later seasons, where both ratings and viewership decline together approximately after season 15. From seasons 1-8 we see that the average ratings grow while the viewership declines, and in seasons 11-14 we see the opposite, with ratings declining while viewership grows. This is an interesting finding, as it shows that the correlation between ratings and viewership is not consistent across all seasons, and that there are periods where they even move in opposite directions. This could be due to a variety of factors, such as changes in the show's quality, shifts in audience preferences, or external events affecting viewership.")
 
 

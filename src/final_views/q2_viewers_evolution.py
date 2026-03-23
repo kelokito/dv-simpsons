@@ -69,7 +69,7 @@ def render_q2_view():
         color=alt.value('#1f77b4'),
         tooltip=[
             alt.Tooltip('season:Q', title='Season', format='.0f'),
-            alt.Tooltip('mean_viewers:Q', title='US Viewers (Millions)', format='.2f')
+            alt.Tooltip('mean_viewers:Q', title='Average US Viewers (Millions)', format='.2f')
         ]
     )
 
@@ -99,4 +99,4 @@ def render_q2_view():
 
     # FIX 3: Apply properties and render the chart in Streamlit
     chart = (line + point + avg_point).properties(width=800, height=500)
-    st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(chart, width='stretch')

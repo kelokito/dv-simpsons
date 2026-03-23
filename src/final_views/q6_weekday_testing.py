@@ -61,7 +61,6 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
     area = alt.Chart(df).transform_density(
         'us_viewers_in_millions',
         as_=['us_viewers_in_millions', 'density'],
-        counts=True,
         groupby=['day_aired']
     ).mark_area(opacity=0.7).encode(
         x=alt.X('us_viewers_in_millions:Q', title='Number of Viewers', axis=alt.Axis(format=',.0f')),
@@ -80,9 +79,9 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
         y = 'shared'
     )
 
-    st.altair_chart(chart, use_container_width=True)
-    st.altair_chart(histogram, use_container_width=True)
-    st.altair_chart(area, use_container_width=True)
+    st.altair_chart(chart, width='stretch')
+    st.altair_chart(histogram, width='stretch')
+    st.altair_chart(area, width='stretch')
 
     st.write("Less thursday espisodes but with more viewers. Let's look at the dates these were aired.")
 
@@ -140,8 +139,8 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
     )
 
     chart = line_chart + limit_bounds + season_labels
-    chart.properties(width=1200, height=800)
-    st.altair_chart(chart, use_container_width=True)
+    chart.properties(width=1500,height=400)
+    st.altair_chart(chart, width='stretch')
 
     st.write("The espisodes aired on thursday where aired in some fo the early seasons, where the show was more popular. This could indicate that the day of the week is not the main factor driving viewership, but rather the season and overall popularity of the show at that time." \
     "We will eliminate the tendency of the show viewerhsip and analyze the distribution again with the bias of the seasons removed.")
@@ -162,8 +161,7 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
         )
     )
 
-    st.altair_chart(histogram, use_container_width=True)
-    st.altair_chart(area, use_container_width=True)
+    st.altair_chart(area, width='stretch')
 
     df['differentiation2'] = df.groupby('season')['us_viewers_in_millions'].transform(lambda x: (x - x.mean()) / x.std())
 
@@ -180,7 +178,7 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
         )
     )
 
-    st.altair_chart(area, use_container_width=True)
+    st.altair_chart(area, width='stretch')
 
     # do the transfromattion yi = yi - yi-1
 
@@ -191,15 +189,21 @@ def render_q6_view(path="../data/simpsons_episodes_cleaned.csv"):
         as_=['differentiation3', 'density'],
         groupby=['day_aired']
     ).mark_area(opacity=0.7).encode(
-        x=alt.X('differentiation3:Q', title='Number of Viewers yi - yi-1', axis=alt.Axis(format=',.0f')),
-        y=alt.Y('density:Q', title='Density'),
+        x=alt.X('differentiation3:Q', title='Number of Viewers yi - yi-1', axis=alt.Axis(format=',.0f'),scale =alt.Scale(domain=(-10, 10))),
+        y=alt.Y('density:Q', title='Density',scale =alt.Scale(domain=(0, 0.5))),
         color=alt.Color(
             'day_aired:N',
-            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#1f77b4', '#ff7f0e'])
+            title='Day Aired',
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#1f77b4', '#ff7f0e']),
+            legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         )
+    ).properties(
+        title='Density of Viewership Changes (yi - yi-1) by Weekday',
+        width=200,
+        height=400
     )
 
-    st.altair_chart(area, use_container_width=True)
+    st.altair_chart(area,width=600)
 
 
 

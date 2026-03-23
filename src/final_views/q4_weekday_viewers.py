@@ -63,7 +63,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
         height=400,
         title='US Viewers by Season and Weekday'
     )
-    st.altair_chart(final_chart_1, use_container_width=True)
+    st.altair_chart(final_chart_1, width='stretch')
 
     # ---------------------------------------------------------
     # CHART 2: Timeline with Season Limits and Trendlines
@@ -146,7 +146,7 @@ def render_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
     )
     
     # Render the timeline chart
-    st.altair_chart(final_chart_2, use_container_width=True)
+    st.altair_chart(final_chart_2, width='stretch')
 
     # ---------------------------------------------------------
     # CALCULATE METRICS FOR CONCLUSION
