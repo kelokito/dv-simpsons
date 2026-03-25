@@ -36,7 +36,7 @@ def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
         x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
         y = alt.Y('number_in_season:N', title = 'Episode Number'),
         color = alt.Color('imdb_rating:Q',
-            scale = alt.Scale(range=['red', 'yellow', 'green']),title = 'IMDb Rating',
+            scale = alt.Scale(scheme='viridis'),title = 'IMDb Rating',
             legend=None)
         
     )
@@ -62,7 +62,46 @@ def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
 
 
 
-# 2. This function now builds the whole section
+
+def show_q1_view_notebook(path="../data/simpsons_episodes_cleaned.csv"):
+
+    # Load the cached data
+    df = load_data(path)
+
+    # --- CONFIGURE CHART 1 ---
+    heatmap = alt.Chart(df).mark_rect(tooltip = False).encode(
+        x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
+        y = alt.Y('number_in_season:N', title = 'Episode Number'),
+        color = alt.Color('imdb_rating:Q',
+            scale = alt.Scale(scheme='purpleorange'),title = 'IMDb Rating',
+            legend=None)
+        
+    )
+            
+
+    text = alt.Chart(df).mark_text(baseline='middle', size=12).encode(
+        x = alt.X('season:N', title='Season'),
+        y = alt.Y('number_in_season:N', title='Episode Number'),
+        text = alt.Text('imdb_rating:Q', format=".1f"),
+        tooltip = [
+            alt.Tooltip('title:N', title='Episode Title'),
+            alt.Tooltip('season:N', title='Season'),
+            alt.Tooltip('number_in_season:N', title='Episode Number'),
+            alt.Tooltip('imdb_rating:Q', title='IMDb Rating', format='.1f')
+        ]
+        
+    )
+
+    chart1 = (heatmap + text).properties(width=700, height=450,title='IMDb Ratings by Season and Episode')
+    
+    # Render the first chart natively inside this function!
+    return chart1   
+
+
+
+
+
+"""# 2. This function now builds the whole section
 def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     
 
@@ -73,3 +112,4 @@ def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     show_q1_view(path)
 
     render_q1_justification()
+"""
