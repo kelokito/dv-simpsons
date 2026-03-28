@@ -118,8 +118,8 @@ def render_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
 
 
     scatter = alt.Chart(df).mark_circle(size=60, opacity=0.5).encode(
-        x=alt.X('imdb_rating:Q', title='IMDb Rating', scale=alt.Scale(zero=False)),
-        y=alt.Y('us_viewers_in_millions:Q', title='US Viewers (Millions)'),
+        y=alt.Y('imdb_rating:Q', title='IMDb Rating'),
+        x=alt.X('us_viewers_in_millions:Q', title='US Viewers (Millions)', scale=alt.Scale(zero=False,domain=[0, df['us_viewers_in_millions'].max() + 1])),
         tooltip=['title', 'season', 'imdb_rating', 'us_viewers_in_millions']
     )
 
@@ -131,14 +131,15 @@ def render_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
 
     corr_legend_df = pd.DataFrame({
         'metric': corr_labels,
-        'imdb_rating': [df['imdb_rating'].min(), df['imdb_rating'].min()],
+        'imdb_rating': [df['imdb_rating'].max(), df['imdb_rating'].max()],
         'us_viewers_in_millions': [df['us_viewers_in_millions'].max(), df['us_viewers_in_millions'].max()],
     })
 
-    # Invisible marks used only to render an in-plot legend with correlation values.
+    print(corr_legend_df)
+
     corr_legend = alt.Chart(corr_legend_df).mark_text().encode(
-        x='imdb_rating:Q',
-        y='us_viewers_in_millions:Q',
+        y='imdb_rating:Q',
+        x='us_viewers_in_millions:Q',
         color=alt.Color(
             'metric:N',
             scale=alt.Scale(domain=corr_labels, range=['black', 'black']),
@@ -162,9 +163,9 @@ def render_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
 
     
     # Add a regression line (trendline) to show the correlation path clearly
-    trendline = scatter.transform_regression('imdb_rating', 'us_viewers_in_millions').mark_line(color='red', strokeWidth=3)
+    trendline = scatter.transform_regression('us_viewers_in_millions', 'imdb_rating',method='poly',order=2).mark_line(color='red', strokeWidth=3)
     
-    chart1 = (scatter + trendline + corr_legend).properties(height=400)
+    chart1 = (scatter + trendline + corr_legend).properties(height=600)
     st.altair_chart(chart1, width='stretch')
 
     st.write("We can observe an overall postivie trend in the scatter plot, but is it alos noticeable that there is a lot of variability in the data, meaning that for a given ratiing, the number of viewers can vary widely. ")

@@ -184,30 +184,87 @@ def show_q4_view(path="../data/simpsons_episodes_cleaned.csv"):
     df = load_data(path)
     df = preprocess_data(df)
 
-
-    # 4. Generate the Density Area Chart
-    area = alt.Chart(df[abs(df['viewers_diff']) < 10]).transform_density(
+    base = alt.Chart(df[abs(df['viewers_diff']) < 10]).transform_density(
         'viewers_diff',
         as_=['viewers_diff', 'density'],
         groupby=['day_aired']
-    ).mark_area(opacity=0.7).encode(
+    )    
+
+    area = base.mark_area(opacity=0.4,tooltip=False).encode(
         x=alt.X('viewers_diff:Q', 
                 title='Number of Viewers Change (yi - yi-1)', 
                 axis=alt.Axis(format=',.0f'), 
                 scale=alt.Scale(domain=(-10, 10))),
         y=alt.Y('density:Q', 
+                stack=None,
                 title='Density', 
-                scale=alt.Scale(domain=(0, 0.5))),
+                    scale=alt.Scale(domain=(0, 0.3))),
         color=alt.Color(
             'day_aired:N',
             title='Day Aired',
-            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#de2157', '#21DEA8']),
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#800080', '#FF0080']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         )
-    ).properties(
-        title='Density of Viewership Changes (Removing the Tendency) by Weekday',
-        height=450
     )
 
+    line = base.mark_line(tooltip=False, stroke='black', strokeWidth=1.5).encode(
+    x=alt.X('viewers_diff:Q', scale=alt.Scale(domain=(-10, 10))),
+    y=alt.Y('density:Q', scale=alt.Scale(domain=(0, 0.3))),  # stack=None ensures the lines are not stacked on top of each other
+    detail='day_aired:N'   # separa les dues corbes sense pintar-les diferent
+    )
+
+    chart = (area + line).properties(
+        title='Density of Viewership Changes (Removing the Tendency) by Weekday',
+        height=450
+    ) # Ensure y-axes are independent for each day_aired
+
+
     # 5. Render to Streamlit (Use container width so it aligns nicely with your other charts)
-    st.altair_chart(area, use_container_width=True)
+    st.altair_chart(chart, use_container_width=True)
+
+
+def show_q4_view_notebook(path="../data/simpsons_episodes_cleaned.csv"):
+    df = load_data(path)
+    df = preprocess_data(df)
+
+    base = alt.Chart(df[abs(df['viewers_diff']) < 10]).transform_density(
+        'viewers_diff',
+        as_=['viewers_diff', 'density'],
+        groupby=['day_aired']
+    )    
+
+    area = base.mark_area(opacity=0.4,tooltip=False).encode(
+        x=alt.X('viewers_diff:Q', 
+                title='Number of Viewers Change (yi - yi-1)', 
+                axis=alt.Axis(format=',.0f'), 
+                scale=alt.Scale(domain=(-10, 10))),
+        y=alt.Y('density:Q', 
+                stack=None,
+                title='Density', 
+                    scale=alt.Scale(domain=(0, 0.3))),
+        color=alt.Color(
+            'day_aired:N',
+            title='Day Aired',
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#800080', '#FF0080']),
+            legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
+        )
+    )
+
+    line = base.mark_line(tooltip=False, stroke='black', strokeWidth=1.5).encode(
+    x=alt.X('viewers_diff:Q', scale=alt.Scale(domain=(-10, 10))),
+    y=alt.Y('density:Q', scale=alt.Scale(domain=(0, 0.3))),  # stack=None ensures the lines are not stacked on top of each other
+    detail='day_aired:N'   # separa les dues corbes sense pintar-les diferent
+    )
+
+    chart = (area + line).properties(
+        title='Density of Viewership Changes (Removing the Tendency) by Weekday',
+        height=450,
+        width=700
+    ) # Ensure y-axes are independent for each day_aired
+
+
+    # 5. Render to Streamlit (Use container width so it aligns nicely with your other charts)
+
+
+
+    return chart

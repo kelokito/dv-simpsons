@@ -32,11 +32,11 @@ def show_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     df = load_data(path)
 
     # --- CONFIGURE CHART 1 ---
-    heatmap = alt.Chart(df).mark_rect(tooltip = False).encode(
+    heatmap = alt.Chart(df).mark_rect(tooltip=False, stroke='white', strokeWidth=1).encode(
         x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
         y = alt.Y('number_in_season:N', title = 'Episode Number'),
         color = alt.Color('imdb_rating:Q',
-            scale = alt.Scale(scheme='viridis'),title = 'IMDb Rating',
+            scale = alt.Scale(scheme='redyellowgreen'),title = 'IMDb Rating',
             legend=None)
         
     )
@@ -69,11 +69,11 @@ def show_q1_view_notebook(path="../data/simpsons_episodes_cleaned.csv"):
     df = load_data(path)
 
     # --- CONFIGURE CHART 1 ---
-    heatmap = alt.Chart(df).mark_rect(tooltip = False).encode(
+    heatmap = alt.Chart(df).mark_rect(tooltip=False, stroke='white', strokeWidth=1).encode(
         x = alt.X('season:N', axis=alt.Axis(orient='top', labelAngle=0),title = 'Season'),
         y = alt.Y('number_in_season:N', title = 'Episode Number'),
         color = alt.Color('imdb_rating:Q',
-            scale = alt.Scale(scheme='purpleorange'),title = 'IMDb Rating',
+            scale = alt.Scale(scheme='redyellowgreen'),title = 'IMDb Rating',
             legend=None)
         
     )
@@ -101,7 +101,7 @@ def show_q1_view_notebook(path="../data/simpsons_episodes_cleaned.csv"):
 
 
 
-"""# 2. This function now builds the whole section
+# 2. This function now builds the whole section
 def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     
 
@@ -112,4 +112,3 @@ def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
     show_q1_view(path)
 
     render_q1_justification()
-"""

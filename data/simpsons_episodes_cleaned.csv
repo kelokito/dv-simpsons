@@ -58,13 +58,13 @@ season,number_in_season,number_in_series,original_air_date,day_aired,imdb_rating
 7,23,151,1996-05-05,Sunday,8.0,11.3,Much Apu About Nothing,0
 7,25,153,1996-05-19,Sunday,8.3,14.7,Summer of 4 Ft. 2,1
 8,4,157,1996-11-17,Sunday,7.7,12.6,"Burns, Baby Burns",0
-8,7,160,1996-12-15,Sunday,7.8,12.2,Lisa's Date with Density,0
+8,7,160,1996-12-15,Sunday,7.8,,Lisa's Date with Density,0
 8,10,163,1997-01-12,Sunday,9.0,20.9,The Springfield Files,0
 8,11,164,1997-01-19,Sunday,7.8,14.0,The Twisted World of Marge Simpson,0
 8,14,167,1997-02-09,Sunday,7.9,15.5,The Itchy & Scratchy & Poochie Show,0
 8,15,168,1997-02-16,Sunday,8.9,15.3,Homer's Phobia,0
 8,18,171,1997-03-16,Sunday,8.7,14.6,Homer vs. the Eighteenth Amendment,0
-8,20,173,1997-04-13,Sunday,7.7,13.25,The Canine Mutiny,0
+8,20,173,1997-04-13,Sunday,7.7,,The Canine Mutiny,0
 8,22,175,1997-04-27,Sunday,8.0,16.9,In Marge We Trust,0
 8,25,178,1997-05-18,Sunday,7.8,12.7,The Secret War of Lisa Simpson,1
 9,2,180,1997-09-28,Sunday,7.4,14.9,The Principal and the Pauper,0
@@ -316,7 +316,7 @@ season,number_in_season,number_in_series,original_air_date,day_aired,imdb_rating
 9,15,193,1998-02-22,Sunday,7.5,9.5,The Last Temptation of Krust,0
 9,5,183,1997-11-02,Sunday,8.2,10.3,The Cartridge Family,0
 8,19,172,1997-04-06,Sunday,8.2,13.3,Grade School Confidential,0
-8,8,161,1996-12-29,Sunday,8.8,14.4,Hurricane Neddy,0
+8,8,161,1996-12-29,Sunday,8.8,,Hurricane Neddy,0
 9,19,197,1998-03-29,Sunday,8.3,9.0,Simpson Tide,0
 8,24,177,1997-05-11,Sunday,7.3,11.6,The Simpsons Spin-Off Showcase,0
 9,1,179,1997-09-21,Sunday,9.1,10.5,The City of New York vs. Homer Simpson,0
