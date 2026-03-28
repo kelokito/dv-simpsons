@@ -1,8 +1,6 @@
 import pandas as pd
 
-
 def load_data(path):
-    """Load the dataset."""
     return pd.read_csv(path)
 
 
@@ -30,11 +28,7 @@ def select_columns(df):
 
 def add_is_last_episode(df):
     """Create is_last_episode column indicating the last episode of each season."""
-    
-    # Get last episode number per season
     last_episode_per_season = df.groupby("season")["number_in_season"].max()
-    
-    # Map it back to the dataframe and compare
     df["is_last_episode"] = (
         df["number_in_season"] == df["season"].map(last_episode_per_season)
     ).astype(int)
@@ -51,11 +45,15 @@ def create_clean_dataframe(path):
     return df
 
 
-def save_dataframe(df, path):
-    """Save dataframe to CSV."""
-    df.to_csv(path, index=False)
 
+def count_outliers_iqr(df, column):
+    """Count outliers in a column using the IQR method."""
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
 
-# Run pipeline
-#df_clean = create_clean_dataframe("./data/simpsons_episodes.csv")
-#save_dataframe(df_clean, "./data/simpsons_episodes_cleaned.csv")
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
+    return outliers, len(outliers), lower_bound, upper_bound
