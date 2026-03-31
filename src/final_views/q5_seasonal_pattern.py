@@ -38,7 +38,7 @@ def make_plot_q5(path="../data/simpsons_episodes_cleaned.csv"):
     chart = (trend_line_pct + scatter_pct).properties(
         width=1100, 
         height=465,
-        title="Seasonal Viewership Pattern"
+        title="Intraseasonal Viewership Pattern"
     )
     return chart
 

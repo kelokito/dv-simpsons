@@ -33,6 +33,8 @@ st.title("📺 The Simpsons Analytics Dashboard")
 # on a 2560px screen in a ~1:2 ratio.
 # =====================================================================
 
+st.divider()
+
 col1, col2 = st.columns([2, 2], gap="small")
 
 with col1:
@@ -41,9 +43,8 @@ with col1:
 with col2:
     show_q2_view()  # 2. Viewers Evolution
     
-st.divider()
 
-col3, col4, col5 = st.columns(3, gap="small")
+col3, col4, col5 = st.columns([2,1,2], gap="small")
 
 with col3:
     show_q3_view()  # 3. Correlation: Ratings vs. Viewers

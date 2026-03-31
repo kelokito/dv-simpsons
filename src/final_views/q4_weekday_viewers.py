@@ -49,7 +49,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
     )
 
     chart = (area + line).properties(
-        title='Distribution of detrended Viewership Changes',
+        title='Detrended Weekday Viewership',
         height=450
     ) 
 

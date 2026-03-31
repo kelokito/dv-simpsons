@@ -88,7 +88,7 @@ def show_q3_view(path="../data/simpsons_episodes_cleaned.csv"):
     ratings_layer = alt.layer(line_ratings, point_ratings)
     chart2 = alt.layer(viewers_layer, ratings_layer).resolve_scale(y='independent').properties(height=400)
     
-    st.altair_chart(chart2, width='stretch')
+    st.altair_chart(chart2, width='stretch', height=450)
     
 
 
