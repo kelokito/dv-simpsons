@@ -73,19 +73,3 @@ def show_q1_view_notebook(path="../data/simpsons_episodes_cleaned.csv"):
     
     # Render the first chart natively inside this function!
     return chart1   
-
-
-
-
-
-# 2. This function now builds the whole section
-def render_q1_view(path="../data/simpsons_episodes_cleaned.csv"):
-    
-
-    # --- ADD YOUR TEXT HERE ---
-
-    st.write("This heatmap shows the IMDB ratings for each episode across all seasons. We can observe how the 'Golden Era' stands out in the early seasons...")
-
-    show_q1_view(path)
-
-    render_q1_justification()

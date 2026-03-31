@@ -26,7 +26,7 @@ def show_dashboard():
         unsafe_allow_html=True
     )
 
-    st.title("📺 The Simpsons Analytics Dashboard")
+    st.title("The Simpsons Analytics Dashboard")
 
     # =====================================================================
     # --- COMPREHENSIVE LAYOUT ---
@@ -37,7 +37,7 @@ def show_dashboard():
 
     st.divider()
 
-    col1, col2 = st.columns([2, 2], gap="small")
+    col1, col2 = st.columns([2, 2], gap="large")
 
     with col1:
         show_q1_view()  # 1. Ratings Evolution
@@ -46,7 +46,7 @@ def show_dashboard():
         show_q2_view()  # 2. Viewers Evolution
         
 
-    col3, col4, col5 = st.columns([2,1,2], gap="small")
+    col3, col4, col5 = st.columns([7,6,7], gap="large")
 
     with col3:
         show_q3_view()  # 3. Correlation: Ratings vs. Viewers

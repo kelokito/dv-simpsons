@@ -32,8 +32,8 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
                 scale=alt.Scale(domain=(-10, 10))),
         y=alt.Y('density:Q', 
                 stack=None,
-                title='', 
-                    scale=alt.Scale(domain=(0, 0.3))),
+            axis=None,
+            scale=alt.Scale(domain=(0, 0.3))),
         color=alt.Color(
             'day_aired:N',
             title='Day Aired',
@@ -44,12 +44,12 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
 
     line = base.mark_line(tooltip=False, stroke='black', strokeWidth=1.5).encode(
         x=alt.X('viewers_diff:Q', scale=alt.Scale(domain=(-10, 10))),
-        y=alt.Y('density:Q', scale=alt.Scale(domain=(0, 0.3))),
+        y=alt.Y('density:Q', axis=None, scale=alt.Scale(domain=(0, 0.3))),
         detail='day_aired:N'   #
     )
 
     chart = (area + line).properties(
-        title='Detrended Weekday Viewership',
+        title='Distribution of Detrended Weekday Viewership',
         height=450
     ) 
 
