@@ -17,7 +17,7 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
     correlation_pearson = correlation_pearson.round(2)
 
     scatter = alt.Chart(df).mark_circle(size=60, opacity=0.5,color='teal').encode(
-        y=alt.Y('imdb_rating:Q', title='IMDb Rating', scale=alt.Scale(domain=[3, df['imdb_rating'].max() + 1])),
+        y=alt.Y('imdb_rating:Q', title='IMDb Rating', scale=alt.Scale(domain=[3, 10])),
         x=alt.X('us_viewers_in_millions:Q', title='US Viewers (Millions)', scale=alt.Scale(zero=False,domain=[0, df['us_viewers_in_millions'].max() + 1])),
         tooltip=['title', 'season', 'imdb_rating', 'us_viewers_in_millions'],
     )
@@ -30,24 +30,21 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
 
     corr_legend_df = pd.DataFrame({
         'metric': corr_labels,
-        'imdb_rating': [df['imdb_rating'].max(), df['imdb_rating'].max()],
-        'us_viewers_in_millions': [df['us_viewers_in_millions'].max(), df['us_viewers_in_millions'].max()],
     })
 
 
     corr_legend = alt.Chart(corr_legend_df).mark_text().encode(
-        y='imdb_rating:Q',
-        x='us_viewers_in_millions:Q',
         color=alt.Color(
             'metric:N',
             scale=alt.Scale(domain=corr_labels, range=['black', 'black']),
             legend=alt.Legend(
                 title='',
                 orient='top-left',
+                labelFontSize=12.5,
                 fillColor='white',
                 strokeColor='black',
                 cornerRadius=4,
-                padding=6,
+                padding=4,
                 symbolSize=0,
                 symbolType='stroke',
                 symbolStrokeColor='black',

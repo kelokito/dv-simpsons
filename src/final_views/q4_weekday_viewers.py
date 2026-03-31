@@ -27,7 +27,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
 
     area = base.mark_area(opacity=0.5,tooltip=False).encode(
         x=alt.X('viewers_diff:Q', 
-                title='Number of Viewers Change (yi - yi-1)', 
+                title='Episode to Episode change: Y(i) - Y(i-1)',
                 axis=alt.Axis(format=',.0f'), 
                 scale=alt.Scale(domain=(-10, 10))),
         y=alt.Y('density:Q', 
@@ -36,8 +36,8 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
             scale=alt.Scale(domain=(0, 0.3))),
         color=alt.Color(
             'day_aired:N',
-            title='Day Aired',
-            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#4F7EA8', '#A96547']),
+            title='Airing Day',
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#A96547', '#808080']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         )
     )
@@ -49,7 +49,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
     )
 
     chart = (area + line).properties(
-        title='Distribution of Detrended Weekday Viewership',
+        title='Trend-Deleted Distribution of  Viewership by Airing Day',
         height=450
     ) 
 

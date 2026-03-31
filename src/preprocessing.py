@@ -5,14 +5,12 @@ def load_data(path):
 
 
 def add_day_aired(df):
-    """Convert date and create day_aired column."""
     df["original_air_date"] = pd.to_datetime(df["original_air_date"])
     df["day_aired"] = df["original_air_date"].dt.day_name()
     return df
 
 
 def select_columns(df):
-    """Keep only required columns."""
     columns = [
         "season",
         "number_in_season",
@@ -27,7 +25,6 @@ def select_columns(df):
 
 
 def add_is_last_episode(df):
-    """Create is_last_episode column indicating the last episode of each season."""
     last_episode_per_season = df.groupby("season")["number_in_season"].max()
     df["is_last_episode"] = (
         df["number_in_season"] == df["season"].map(last_episode_per_season)
@@ -37,7 +34,6 @@ def add_is_last_episode(df):
 
 
 def create_clean_dataframe(path):
-    """Full pipeline to generate cleaned dataframe."""
     df = load_data(path)
     df = add_day_aired(df)
     df = select_columns(df)
