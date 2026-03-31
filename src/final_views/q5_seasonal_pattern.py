@@ -17,7 +17,7 @@ def make_plot_q5(path="../data/simpsons_episodes_cleaned.csv"):
     df = load_data(path)
     df = preprocess_data(df)
     
-    scatter_pct = alt.Chart(df[df['number_of_viewers_percentage'] < 6]).mark_circle(opacity=0.4, size=40, color='#9edae5').encode(
+    scatter_pct = alt.Chart(df[df['number_of_viewers_percentage'] < 6]).mark_circle(opacity=0.5, size=40, color='#9edae5').encode(
         x=alt.X(
             'number_of_episode_normalized:Q',
             title='Season Progression - Episode Number / Episodes in Season',
@@ -46,7 +46,7 @@ def make_plot_q5(path="../data/simpsons_episodes_cleaned.csv"):
 
     chart = (trend_line_pct + scatter_pct).properties(
         width=1100, 
-        height=465,
+        height=450,
         title="Viewership Pattern within Seasons"
     )
     return chart

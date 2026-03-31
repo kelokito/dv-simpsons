@@ -49,7 +49,7 @@ def make_plot_q2():
 
     point = alt.Chart(df).transform_calculate(
         series="'Individual episode'"
-    ).mark_circle(size=50, opacity=0.75).encode(
+    ).mark_circle(size=50, opacity=0.5).encode(
         x=alt.X('season_dec:Q', title='Season', scale=alt.Scale(domain=[1, 28])),
         y=alt.Y('us_viewers_in_millions:Q'),
         color=alt.Color(

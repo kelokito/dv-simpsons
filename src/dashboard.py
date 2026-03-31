@@ -35,16 +35,16 @@ def show_dashboard():
         show_q2_view() 
         
 
-    col3, col4, col5 = st.columns([7,6,7], gap="large")
+    col3, col4, col5 = st.columns([7,7,6], gap="large")
 
     with col3:
         show_q3_view()  
         
     with col4:
-        show_q4_view() 
+        show_q5_view() 
         
     with col5:
-        show_q5_view() 
+        show_q4_view() 
 
     st.divider()
     st.caption("Dashboard created by Biel Manté and Adrià Espinoza")

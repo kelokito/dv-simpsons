@@ -25,7 +25,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
         groupby=['day_aired']
     )    
 
-    area = base.mark_area(opacity=0.4,tooltip=False).encode(
+    area = base.mark_area(opacity=0.5,tooltip=False).encode(
         x=alt.X('viewers_diff:Q', 
                 title='Number of Viewers Change (yi - yi-1)', 
                 axis=alt.Axis(format=',.0f'), 
@@ -37,7 +37,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
         color=alt.Color(
             'day_aired:N',
             title='Day Aired',
-            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#800080', '#FF0080']),
+            scale=alt.Scale(domain=['Sunday', 'Thursday'], range=['#4F7EA8', '#A96547']),
             legend=alt.Legend(orient='top-right', strokeColor='black', fillColor='white', cornerRadius=5, padding=10)
         )
     )
