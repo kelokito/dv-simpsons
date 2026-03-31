@@ -9,9 +9,9 @@ from preprocessing import load_data
 
 
 def preprocess_data(df):
-    df['number_of_episode_normalized'] = 100*df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')
-    df['number_of_episode_normalized_quantiles'] = pd.qcut(df['number_of_episode_normalized'], q=10, labels=False)
-    df['number_of_viewers_percentage'] = df.groupby('season')['us_viewers_in_millions'].transform(lambda x: x / x.sum() * 100)
+    df['number_of_episode_normalized'] = (100*df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')).round(2)
+    df['number_of_episode_normalized_quantiles'] = pd.qcut(df['number_of_episode_normalized'], q=10, labels=False).round(2)
+    df['number_of_viewers_percentage'] = df.groupby('season')['us_viewers_in_millions'].transform(lambda x: x / x.sum() * 100).round(2)
     return df
 
 

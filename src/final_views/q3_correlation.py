@@ -19,10 +19,10 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
     correlation_pearson = correlation_pearson.round(2)
 
 
-    scatter = alt.Chart(df).mark_circle(size=60, opacity=0.5).encode(
+    scatter = alt.Chart(df).mark_circle(size=60, opacity=0.5,color='teal').encode(
         y=alt.Y('imdb_rating:Q', title='IMDb Rating', scale=alt.Scale(domain=[3, df['imdb_rating'].max() + 1])),
         x=alt.X('us_viewers_in_millions:Q', title='US Viewers (Millions)', scale=alt.Scale(zero=False,domain=[0, df['us_viewers_in_millions'].max() + 1])),
-        tooltip=['title', 'season', 'imdb_rating', 'us_viewers_in_millions']
+        tooltip=['title', 'season', 'imdb_rating', 'us_viewers_in_millions'],
     )
 
 
@@ -37,7 +37,6 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
         'us_viewers_in_millions': [df['us_viewers_in_millions'].max(), df['us_viewers_in_millions'].max()],
     })
 
-    print(corr_legend_df)
 
     corr_legend = alt.Chart(corr_legend_df).mark_text().encode(
         y='imdb_rating:Q',
@@ -60,8 +59,15 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
         ),
     )
     
-    # Add a regression line (trendline) to show the correlation path clearly
-    trendline = scatter.transform_regression('us_viewers_in_millions', 'imdb_rating',method='poly',order=2).mark_line(color='red', strokeWidth=3)
+    trendline = alt.Chart(df).transform_regression(
+        'us_viewers_in_millions',
+        'imdb_rating',
+        method='poly',
+        order=2,
+    ).mark_line(color='red', strokeWidth=3,tooltip=False).encode(
+        x='us_viewers_in_millions:Q',
+        y='imdb_rating:Q',
+    )
     
     chart1 = (scatter + trendline + corr_legend).properties(height=450, title='US Viewers and IMDb Ratings Correlation')
     return chart1

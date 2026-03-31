@@ -40,22 +40,22 @@ def show_dashboard():
     col1, col2 = st.columns([2, 2], gap="large")
 
     with col1:
-        show_q1_view()  # 1. Ratings Evolution
+        show_q1_view()
         
     with col2:
-        show_q2_view()  # 2. Viewers Evolution
+        show_q2_view() 
         
 
     col3, col4, col5 = st.columns([7,6,7], gap="large")
 
     with col3:
-        show_q3_view()  # 3. Correlation: Ratings vs. Viewers
+        show_q3_view()  
         
     with col4:
-        show_q4_view()  # 4. Weekday Viewers
+        show_q4_view() 
         
     with col5:
-        show_q5_view()  # 5. Seasonal Pattern
+        show_q5_view() 
 
     st.divider()
     st.caption("Dashboard created by Biel Manté and Adrià Espinoza")
