@@ -8,16 +8,13 @@ from preprocessing import load_data
 
 
 def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
-    # Load the cached data
     df = load_data(path)
 
-    # For a clean line chart, it's usually best to aggregate by season first
     correlation_kendall, _ = kendalltau(df['us_viewers_in_millions'], df['imdb_rating'])
     correlation_kendall = correlation_kendall.round(2)
 
     correlation_pearson = df['us_viewers_in_millions'].corr(df['imdb_rating'])
     correlation_pearson = correlation_pearson.round(2)
-
 
     scatter = alt.Chart(df).mark_circle(size=60, opacity=0.5,color='teal').encode(
         y=alt.Y('imdb_rating:Q', title='IMDb Rating', scale=alt.Scale(domain=[3, df['imdb_rating'].max() + 1])),
@@ -64,7 +61,7 @@ def make_plot_q3(path="../data/simpsons_episodes_cleaned.csv"):
         'imdb_rating',
         method='poly',
         order=2,
-    ).mark_line(color='red', strokeWidth=3,tooltip=False).encode(
+    ).mark_line(color='#FF8749', strokeWidth=3,tooltip=False).encode(
         x='us_viewers_in_millions:Q',
         y='imdb_rating:Q',
     )

@@ -14,8 +14,6 @@ def preprocess_data():
     df['season_dec'] = df['season'] + (df['number_in_season'] / df.groupby('season')['number_in_season'].transform('max')) 
     return df
     
-
-
 def make_plot_q2():
 
     df = preprocess_data()

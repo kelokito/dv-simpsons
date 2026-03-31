@@ -1,6 +1,5 @@
 import streamlit as st
 
-# 1. Import the section-rendering functions
 from final_views.q1_ratings_evolution import show_q1_view
 from final_views.q2_viewers_evolution import show_q2_view
 from final_views.q3_correlation import show_q3_view
@@ -9,10 +8,8 @@ from final_views.q5_seasonal_pattern import show_q5_view
 
 
 def show_dashboard():
-    # 2. Set the layout to wide to use the full 2560px screen
     st.set_page_config(page_title="The Simpsons Analytics", layout="wide")
 
-    # 3. Inject Custom CSS to remove padding and maximize the width
     st.markdown(
         """
         <style>
@@ -27,14 +24,6 @@ def show_dashboard():
     )
 
     st.title("The Simpsons Analytics Dashboard")
-
-    # =====================================================================
-    # --- COMPREHENSIVE LAYOUT ---
-    # Left to right, top to bottom order: Q1, Q2, Q3, Q4, Q5
-    # Q1 has width=700, Q2 has width=1400. They fit perfectly side by side 
-    # on a 2560px screen in a ~1:2 ratio.
-    # =====================================================================
-
     st.divider()
 
     col1, col2 = st.columns([2, 2], gap="large")
