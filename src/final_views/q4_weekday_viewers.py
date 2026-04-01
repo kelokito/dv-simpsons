@@ -27,7 +27,7 @@ def make_plot_q4(path="../data/simpsons_episodes_cleaned.csv"):
 
     area = base.mark_area(opacity=0.5,tooltip=False).encode(
         x=alt.X('viewers_diff:Q', 
-                title='Episode to Episode change: Y(i) - Y(i-1)',
+                title='Episode to Episode viewership change: Y(i) - Y(i-1)',
                 axis=alt.Axis(format=',.0f'), 
                 scale=alt.Scale(domain=(-10, 10))),
         y=alt.Y('density:Q', 
